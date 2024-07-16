@@ -21,11 +21,11 @@ const useHouseApi = () => {
     if (props.category === CATEGORY_ENUM.RENTAL) {
       formdata.append("payment_period", props.payment_period);
     }
-    
+
     formdata.append("condition", props.condition);
     formdata.append("legal_documents", props.legal_documents);
     formdata.append("nearby_facilities", props.nearby_facilities);
-    formdata.append("amenity_name", props.amenity_name);
+    formdata.append("amenity_name", props.amenities);
 
     props.images.forEach((image) => {
       formdata.append("images", image);

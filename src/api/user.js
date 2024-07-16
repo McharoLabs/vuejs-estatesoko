@@ -1,6 +1,9 @@
-const apiUrl = import.meta.env.VITE_APP_API_URL;
+import { useAuthStore } from "@/store/auth";
 
 const useUserApi = () => {
+  const apiUrl = import.meta.env.VITE_APP_API_URL;
+  const { getAuthToken, logout } = useAuthStore();
+
   const createAccount = async ({
     birth_date,
     company,
@@ -58,7 +61,48 @@ const useUserApi = () => {
     }
   };
 
-  return { createAccount };
+  const active = async ({ user_id }) => {
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${getAuthToken}`);
+
+    const fetchUrl = new URL(`${apiUrl}/user/active`);
+
+    fetchUrl.searchParams.append("user_id", user_id);
+
+    const requestOptions = {
+      method: "PUT",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    try {
+      const response = await fetch(fetchUrl, requestOptions);
+
+      if (!response.ok) {
+        const errorDetail = await response.json();
+        console.log(errorDetail);
+
+        if (response.status === 400) {
+          console.log(errorDetail.detail);
+          return {
+            success: false,
+            code: response.status,
+            message: errorDetail.detail,
+          };
+        }
+        throw new Error(`Error: ${errorDetail.detail}`);
+      }
+
+      const res = await response.json();
+
+      return { success: true, code: response.status, message: res.detail };
+    } catch (error) {
+      console.error(error);
+      return { success: false, message: "Unknown error occured" };
+    }
+  };
+
+  return { createAccount, active };
 };
 
 export default useUserApi;

@@ -35,7 +35,11 @@
       <div
         class="p-4 border-2 max-w-7xl w-full text-2xl border-gray-200 rounded-lg"
       >
-        <form class="mx-auto mt-6" id="register-form">
+        <form
+          class="mx-auto mt-6"
+          id="register-form"
+          @submit.prevent="handleOnSubmit"
+        >
           <CommonFields
             :formData="common_property_data"
             :errors="errors"
@@ -245,7 +249,6 @@
           </div>
           <button
             type="submit"
-            @click.prevent="handleOnSubmit"
             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none flex flex-row gap-3 justify-center items-center w-full lg:w-1/2 xl:w-1/3"
           >
             <p>Submit</p>
@@ -284,7 +287,7 @@
     </section>
   </div>
 </template>
-<script>
+<script lang="js">
 import useLandApi from "@/api/land";
 import CommonFields from "@/components/CommonFields.vue";
 import ErrorModal from "@/components/ErrorModal.vue";

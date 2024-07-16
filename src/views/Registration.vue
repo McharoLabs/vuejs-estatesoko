@@ -359,10 +359,23 @@
             </svg>
 
             <h3
-              class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400"
+              class="mb-2 text-lg font-normal text-gray-500 dark:text-gray-400"
             >
               {{ responseMessage }}
             </h3>
+            <h4
+              class="mb-5 text-sm font-normal text-gray-500 dark:text-gray-400"
+            >
+              We will contact you soon after verifying your account or contact
+              <span
+                ><a
+                  :href="'tel:' + COMPANY_INFORMATION.PHONE"
+                  class="hover:underline text-blue-600"
+                  >{{ COMPANY_INFORMATION.PHONE }}</a
+                ></span
+              >
+              for quick activation.
+            </h4>
             <button
               @click="toggleModal"
               type="button"
@@ -396,6 +409,7 @@ import family_image from "@/assets/family.png";
 import { reactive, ref } from 'vue';
 import { defineComponent, onMounted } from 'vue';
 import { initFlowbite } from 'flowbite';
+import { COMPANY_INFORMATION } from '@/lib/enum';
 
 
 export default defineComponent({
@@ -617,6 +631,7 @@ export default defineComponent({
       responseMessage,
       toggleModal,
       state,
+      COMPANY_INFORMATION,
     };
   },
   data() {

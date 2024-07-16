@@ -336,8 +336,7 @@
   </div>
 </template>
 
-
-<script>
+<script lang="js">
 import TopEstateNavVue from "@/components/TopEstateNav.vue";
 import top_image from "@/assets/dar.jpg";
 import middle_image from "@/assets/hm.jpg";

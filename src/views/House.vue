@@ -728,7 +728,7 @@ export default defineComponent({
         if (success) {
           showSuccessModal(message);
           clearFormData();
-      scrollToSection("house");
+          scrollToSection("house");
 
         } else {
           if (code === STATUS_CODE.UNAUTHORIZED) {

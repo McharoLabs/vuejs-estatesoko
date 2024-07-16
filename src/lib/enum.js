@@ -17,7 +17,7 @@ export const USER_ROLES = Object.freeze({
   OPERATION_MANAGER: "Operations Manager",
 });
 
-export const ROOM_ENUM = Object.freeze({
+export const ROOM_TYPE_ENUM = Object.freeze({
   SINGLE_ROOM: "Single Room",
   DOUBLE_ROOM: "Double Room",
   TWIN_ROOM: "Twin Room",
@@ -53,6 +53,12 @@ export const PRICE_UNIT_ENUM = Object.freeze({
   TSHS: "Tshs",
   THOUSANDS: "Thousands",
   MILLION: "Million",
+});
+
+export const USER_STATUS = Object.freeze({
+  ACTIVE: "Active",
+  INACTIVE: "Inactive",
+  DELETED: "Deleted",
 });
 
 export const PAYMENT_PERIOD_ENUM = Object.freeze({

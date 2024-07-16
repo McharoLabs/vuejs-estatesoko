@@ -15,6 +15,7 @@ import Hall from "./views/Hall.vue";
 import Land from "./views/Land.vue";
 import ResetPassword from "./views/ResetPassword.vue";
 import Profile from "./views/Profile.vue";
+import Agent from "./views/Agent.vue";
 import { authGuard } from "./utils/auth-guard";
 
 const routes = [
@@ -67,13 +68,13 @@ const routes = [
     beforeEnter: authGuard,
   },
   {
-    path: "/home/profile",
+    path: "/profile",
     name: "Profile",
     component: Profile,
     beforeEnter: authGuard,
   },
   {
-    path: "/home/reset-password",
+    path: "/reset-password",
     name: "ResetPassword",
     component: ResetPassword,
     beforeEnter: authGuard,
@@ -82,6 +83,13 @@ const routes = [
     path: "/home/broker",
     name: "Home",
     component: Home,
+    beforeEnter: authGuard,
+  },
+
+  {
+    path: "/home/manage/agents",
+    name: "Agent",
+    component: Agent,
     beforeEnter: authGuard,
   },
 ];

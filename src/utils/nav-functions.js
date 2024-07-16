@@ -69,12 +69,17 @@ const useNavigationFunctions = () => {
     router.push({ name: "Manage", replace: true });
   };
 
+  const navigateToAgents = () => {
+    router.push({ name: "Agent", replace: true });
+  };
+
   const signOut = () => {
     logout();
     router.push({ name: "Estate", replace: true });
   };
 
   return {
+    navigateToAgents,
     signOut,
     navigateToResetPassword,
     navigateToProfile,

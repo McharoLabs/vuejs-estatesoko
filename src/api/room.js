@@ -1,13 +1,13 @@
-import { CATEGORY_ENUM, PROPERTY_TYPE_ENUM } from "@/lib/enum";
+import { PROPERTY_TYPE_ENUM } from "@/lib/enum";
 import { useAuthStore } from "@/store/auth";
 
-const useLandApi = () => {
+const useRoomApi = () => {
   const apiUrl = import.meta.env.VITE_APP_API_URL;
   const { getAuthToken, logout } = useAuthStore();
 
   const create = async (
     props = {
-      category,
+      category: CATEGORY_ENUM.RENTAL,
       location,
       title,
       description,
@@ -17,15 +17,18 @@ const useLandApi = () => {
       condition,
       legal_documents,
       nearby_facilities,
-      land_type,
-      plot_size,
-      zoning,
-      topography,
+
+      room_size,
+      shared_facilities,
+      furnishing_status,
+      room_type,
+      occupancy,
       utilities,
-      payment_period,
-      access_roads,
-      development_status,
-      development_status,
+      floor_level,
+      amenities,
+      accessbility_features,
+      security_features,
+      heating_cooling_systems,
       images: [],
     }
   ) => {
@@ -34,33 +37,34 @@ const useLandApi = () => {
 
     const formdata = new FormData();
     formdata.append("category", props.category);
-    formdata.append("property_type", PROPERTY_TYPE_ENUM.LAND);
+    formdata.append("property_type", PROPERTY_TYPE_ENUM.ROOM);
     formdata.append("title", props.title);
     formdata.append("street_id", props.location);
     formdata.append("description", props.description);
     formdata.append("price", props.price);
     formdata.append("price_unit", props.price_unit);
 
-    if (props.category === CATEGORY_ENUM.RENTAL) {
-      formdata.append("payment_period", props.payment_period);
-    }
+    formdata.append("payment_period", props.payment_period);
 
     formdata.append("condition", props.condition);
     formdata.append("legal_documents", props.legal_documents);
     formdata.append("nearby_facilities", props.nearby_facilities);
+    formdata.append("amenity_name", props.amenities);
 
     props.images.forEach((image) => {
       formdata.append("images", image);
     });
 
-    formdata.append("land_type", props.land_type);
-    formdata.append("plot_size", props.plot_size);
-    formdata.append("living_rooms", props.living_rooms);
-    formdata.append("zoning", props.zoning);
-    formdata.append("topography", props.topography);
+    formdata.append("room_size", props.room_size);
+    formdata.append("shared_facilities", props.shared_facilities);
+    formdata.append("furnishing_status", props.furnishing_status);
+    formdata.append("room_type", props.room_type);
+    formdata.append("occupancy", props.occupancy);
     formdata.append("utilities", props.utilities);
-    formdata.append("access_roads", props.access_roads);
-    formdata.append("development_status", props.development_status);
+    formdata.append("floor_level", props.floor_level);
+    formdata.append("accessbility_features", props.accessbility_features);
+    formdata.append("security_features", props.security_features);
+    formdata.append("heating_cooling_systems", props.heating_cooling_systems);
 
     const requestOptions = {
       method: "POST",
@@ -70,7 +74,7 @@ const useLandApi = () => {
     };
 
     try {
-      const response = await fetch(`${apiUrl}/land/`, requestOptions);
+      const response = await fetch(`${apiUrl}/room/`, requestOptions);
 
       if (!response.ok) {
         const errorDetail = await response.json();
@@ -98,4 +102,4 @@ const useLandApi = () => {
   return { create };
 };
 
-export default useLandApi;
+export default useRoomApi;

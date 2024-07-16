@@ -63,7 +63,7 @@
       </p>
     </div>
     <!-- Category Field -->
-    <div class="relative z-0 w-full mb-5 group">
+    <div class="relative z-0 w-full mb-5 group" v-if="!isRoomLocation">
       <select
         name="category"
         id="category"
@@ -330,7 +330,7 @@
   </div>
 </template>
 
-<script>
+<script lang="js">
 import { defineComponent, onMounted, watch, ref } from "vue";
 import {
   CATEGORY_ENUM,
@@ -362,6 +362,7 @@ export default defineComponent({
     const regions = ref(null);
     const districts = ref(null);
     const streets = ref(null);
+    const isRoomLocation = ref(false);
 
     const selected_region_name = ref("");
     const selected_district_name = ref("");
@@ -372,6 +373,12 @@ export default defineComponent({
       if (success && data) {
         regions.value = data;
       }
+
+      isRoomLocation.value = window.location.pathname.startsWith(
+        "/home/broker/room"
+      )
+        ? true
+        : false;
     });
 
     watch(selected_region_name, async (newVal) => {
@@ -422,6 +429,7 @@ export default defineComponent({
       priceUnits: Object.values(PRICE_UNIT_ENUM),
       paymentPeriods: Object.values(PAYMENT_PERIOD_ENUM),
       CATEGORY_ENUM,
+      isRoomLocation,
     };
   },
 });

@@ -74,11 +74,12 @@
     >
       <div class="h-full px-3 pb-4 overflow-y-auto bg-white">
         <ul class="space-y-2 font-medium">
-          <li>
+          <!-- SUPER USER NAV -->
+          <li v-if="user.is_superuser">
             <a
               href=""
               class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
-              @click.prevent="navigateToBrokerHome"
+              @click.prevent="route.navigateToManage"
             >
               <svg
                 class="w-5 h-5 text-blue-500 transition duration-75 group-hover:text-blue-700"
@@ -98,7 +99,60 @@
             </a>
           </li>
 
-          <li>
+          <li v-if="user.is_superuser">
+            <a
+              href=""
+              class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
+              @click.prevent="route.navigateToAgents"
+            >
+              <svg
+                class="w-5 h-5 text-blue-500 transition duration-75 group-hover:text-blue-700"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-width="2"
+                  d="M4.5 17H4a1 1 0 0 1-1-1 3 3 0 0 1 3-3h1m0-3.05A2.5 2.5 0 1 1 9 5.5M19.5 17h.5a1 1 0 0 0 1-1 3 3 0 0 0-3-3h-1m0-3.05a2.5 2.5 0 1 0-2-4.45m.5 13.5h-7a1 1 0 0 1-1-1 3 3 0 0 1 3-3h3a3 3 0 0 1 3 3 1 1 0 0 1-1 1Zm-1-9.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z"
+                />
+              </svg>
+
+              <span class="ms-3">Agents</span>
+            </a>
+          </li>
+
+          <!-- BROKER NAV -->
+
+          <li v-if="!user.is_superuser">
+            <a
+              href=""
+              class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
+              @click.prevent="route.navigateToBrokerHome"
+            >
+              <svg
+                class="w-5 h-5 text-blue-500 transition duration-75 group-hover:text-blue-700"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                viewBox="0 0 22 21"
+              >
+                <path
+                  d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z"
+                />
+                <path
+                  d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z"
+                />
+              </svg>
+              <span class="ms-3">Dashboard</span>
+            </a>
+          </li>
+
+          <li v-if="!user.is_superuser">
             <button
               @click="toggleNavDropdown"
               type="button"
@@ -151,7 +205,7 @@
             >
               <li>
                 <a
-                  @click.prevent="navigateToHause"
+                  @click.prevent="route.navigateToHause"
                   href=""
                   class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                   >{{ PROPERTY_TYPE_ENUM.HOUSE }}</a
@@ -159,7 +213,7 @@
               </li>
               <li>
                 <a
-                  @click.prevent="navigateToApartment"
+                  @click.prevent="route.navigateToApartment"
                   href=""
                   class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                   >{{ PROPERTY_TYPE_ENUM.APARTMENT }}</a
@@ -167,7 +221,7 @@
               </li>
               <li>
                 <a
-                  @click.prevent="navigateToRoom"
+                  @click.prevent="route.navigateToRoom"
                   href=""
                   class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                   >{{ PROPERTY_TYPE_ENUM.ROOM }}</a
@@ -176,7 +230,7 @@
 
               <li>
                 <a
-                  @click.prevent="navigateToBussinessFrame"
+                  @click.prevent="route.navigateToBussinessFrame"
                   href=""
                   class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                   >{{ PROPERTY_TYPE_ENUM.BUSINESS_FRAME }}</a
@@ -185,7 +239,7 @@
 
               <li>
                 <a
-                  @click.prevent="navigateToHall"
+                  @click.prevent="route.navigateToHall"
                   href=""
                   class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                   >{{ PROPERTY_TYPE_ENUM.HALL }}</a
@@ -194,7 +248,7 @@
 
               <li>
                 <a
-                  @click.prevent="navigateToLand"
+                  @click.prevent="route.navigateToLand"
                   href=""
                   class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                   >{{ PROPERTY_TYPE_ENUM.LAND }}</a
@@ -205,7 +259,7 @@
 
           <li>
             <a
-              @click.prevent="navigateToProfile"
+              @click.prevent="route.navigateToProfile"
               href=""
               class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
             >
@@ -233,7 +287,7 @@
           <li>
             <a
               href=""
-              @click.prevent="navigateToResetPassword"
+              @click.prevent="route.navigateToResetPassword"
               class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
             >
               <svg
@@ -254,7 +308,7 @@
           <li>
             <a
               href=""
-              @click.prevent="signOut"
+              @click.prevent="route.signOut"
               class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
             >
               <svg
@@ -296,24 +350,11 @@ export default defineComponent({
   components: {},
   setup() {
     const authStore = useAuthStore();
-    const user = authStore.user;
+    const user= authStore.user;
 
     const isAuthenticated = !!authStore.user;
 
-    const {
-      navigateToEstatePortal,
-      navigateToResetPassword,
-      navigateToProfile,
-      navigateToLand,
-      navigateToHall,
-      navigateToBussinessFrame,
-      navigateToRoom,
-      navigateToApartment,
-      navigateToHause,
-      navigateToAuth,
-      navigateToBrokerHome,
-      signOut,
-    } = useNavigationFunctions();
+    const route = useNavigationFunctions();
     const { getImageUrl } = useUrlFormatter();
 
     const isSidebarOpen = ref(false);
@@ -338,23 +379,13 @@ export default defineComponent({
     });
 
     return {
-      navigateToEstatePortal,
+      route,
       user,
       toggleSidebar,
       getImageUrl,
-      navigateToResetPassword,
-      navigateToProfile,
-      navigateToLand,
-      navigateToHall,
-      navigateToBussinessFrame,
-      navigateToRoom,
-      navigateToApartment,
-      navigateToHause,
       toggleNavDropdown,
       isNavDropdownOpen,
       isSidebarOpen,
-      navigateToBrokerHome,
-      signOut,
     };
   },
   data() {

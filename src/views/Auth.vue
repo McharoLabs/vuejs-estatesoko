@@ -108,7 +108,7 @@
   </div>
 </template>
 
-<script>
+<script lang="js">
 import { useAuthStore } from "@/store/auth";
 import useNavigationFunctions from "@/utils/nav-functions";
 import { defineComponent, ref } from "vue";
@@ -152,7 +152,6 @@ export default defineComponent({
       }
 
       if (auth.user?.is_superuser) {
-        console.log("admin");
         navigateToManage();
       } else {
         navigateToBrokerHome();
