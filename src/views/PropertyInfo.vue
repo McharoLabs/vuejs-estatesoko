@@ -189,8 +189,8 @@
               <div class="flex-shrink-0 lg:mr-4">
                 <img
                   class="h-72 w-72 rounded-lg object-cover"
-                  :src="getImageUrl(property.image_path[0])"
-                  :alt="property.image_path[0]"
+                  :src="getImageUrl(broker.passport)"
+                  :alt="broker.passport"
                 />
               </div>
               <div class="flex-grow">
@@ -337,13 +337,13 @@ export default defineComponent({
     const location = ref(null);
     const route = useRoute();
     const { getImageUrl } = useUrlFormatter();
+    const userApi = useUserApi();
+    const propertiesApi = usePropertiesApi();
+    const locationApi = useLocation();
 
     onMounted(async () => {
       scrollToSection("property-info")
       const propertyId = route.params.id;
-      const userApi = useUserApi();
-      const propertiesApi = usePropertiesApi();
-      const locationApi = useLocation();
 
       const propertyResponse = await propertiesApi.getProperty({property_id: propertyId});
       property.value = propertyResponse.data;

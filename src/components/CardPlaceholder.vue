@@ -3,7 +3,7 @@
     class="grid place-items-center gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
   >
     <div
-      v-for="n in 20"
+      v-for="n in 3"
       :key="n"
       role="status"
       class="w-full max-w-sm p-4 border border-gray-200 rounded shadow animate-pulse md:p-6 dark:border-gray-700"
