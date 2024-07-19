@@ -171,11 +171,10 @@
           <p>{{ count }} Listings</p>
         </div>
 
-        <div v-if="!properties">
-          <CardPlaceholderVue />
-        </div>
+        <CardPlaceholderVue v-if="properties.length === 0" />
 
         <div
+          v-else
           class="grid place-items-center gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
         >
           <div
@@ -250,6 +249,9 @@
 
                 <div class="mt-auto">
                   <a
+                    @click.prevent="
+                      navigateToPropertyInfo(property.property_id)
+                    "
                     href=""
                     class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 animate-bounce"
                   >
@@ -360,6 +362,7 @@ import useLocation from "@/api/location";
 import useUrlFormatter from "@/utils/url-formatter";
 import { onBeforeRouteUpdate } from "vue-router";
 import useSearchPropertiesStore from "@/store/properties-search-store";
+import useNavigationFunctions from "@/utils/nav-functions";
 
 export default defineComponent({
   name: "AdvancedSearch",
@@ -374,6 +377,8 @@ export default defineComponent({
     const { getDistrictStreets, getRegionDistricts, getRegions } =
       useLocation();
     const searchPropertiesStore = useSearchPropertiesStore();
+    const { navigateToPropertyInfo } = useNavigationFunctions();
+
     const { getImageUrl } = useUrlFormatter();
 
     const regions = ref(null);
@@ -401,13 +406,11 @@ export default defineComponent({
       if (success && data) {
         regions.value = data;
       }
-      // if (typeof searchPropertiesStore.getCount === "undefined") {
-      //   refreshPage();
-      // }
 
       if (searchPropertiesStore.getProperties.length === 0) {
         await fetchProperties();
       }
+
 
       scrollToSection("search");
     });
@@ -502,6 +505,7 @@ export default defineComponent({
     });
 
     return {
+      navigateToPropertyInfo,
       regions,
       districts,
       streets,

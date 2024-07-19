@@ -21,6 +21,11 @@ const useNavigationFunctions = () => {
     router.push({ name: "BrokerInfo", params: { id }, replace: false });
   };
 
+  const navigateToPropertyInfo = (id) => {
+    console.log(id);
+    router.push({ name: "PropertyInfo", params: { id }, replace: false });
+  };
+
   const navigateToAuth = () => {
     router.push({ name: "Auth", replace: false });
   };
@@ -97,6 +102,7 @@ const useNavigationFunctions = () => {
     navigateToBrokerInfo,
     navigateToAuth,
     navigateToRegistration,
+    navigateToPropertyInfo,
   };
 };
 

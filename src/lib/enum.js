@@ -38,7 +38,7 @@ export const ROOM_TYPE_ENUM = Object.freeze({
 export const PROPERTY_TYPE_ENUM = Object.freeze({
   HOUSE: "House",
   APARTMENT: "Apartment",
-  ROOM: "Room",
+  ROOM: "Rooms",
   BUSINESS_FRAME: "Business Frame",
   HALL: "Hall",
   LAND: "Land",

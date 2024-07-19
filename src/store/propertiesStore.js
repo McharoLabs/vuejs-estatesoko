@@ -35,7 +35,6 @@ export const usePropertiesStore = defineStore({
 
         if (!response.ok) {
           const errorDetail = await response.json();
-          console.log(response)
           if (response.status === 401) {
             return { success: false, message: errorDetail.detail };
           } else if (response.status == 405) {

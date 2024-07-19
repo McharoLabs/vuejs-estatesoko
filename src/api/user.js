@@ -102,7 +102,48 @@ const useUserApi = () => {
     }
   };
 
-  return { createAccount, active };
+  const getBroker = async ({ user_id }) => {
+    const fetchUrl = new URL(`${apiUrl}/api/broker`);
+
+    fetchUrl.searchParams.append("user_id", user_id);
+
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    try {
+      const response = await fetch(fetchUrl.toString(), requestOptions);
+
+      if (!response.ok) {
+        const errorDetail = await response.json();
+
+        if (response.status === 401) {
+          return { success: false, message: errorDetail.detail };
+        } else if (response.status == 405) {
+          return { success: false, message: errorDetail.detail };
+        }
+
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+
+      return {
+        success: true,
+        data: data,
+      };
+    } catch (error) {
+      console.error(error);
+      return { success: false, message: "Unknown error occurred" };
+    }
+  };
+
+  return { createAccount, active, getBroker };
 };
 
 export default useUserApi;

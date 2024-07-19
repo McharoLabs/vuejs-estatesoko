@@ -16,6 +16,7 @@ import Land from "./views/Land.vue";
 import ResetPassword from "./views/ResetPassword.vue";
 import Profile from "./views/Profile.vue";
 import Agent from "./views/Agent.vue";
+import PropertyInfo from "./views/PropertyInfo.vue";
 import { authGuard } from "./utils/auth-guard";
 
 const routes = [
@@ -92,6 +93,7 @@ const routes = [
     component: Agent,
     beforeEnter: authGuard,
   },
+  { path: "/property/:id", name: "PropertyInfo", component: PropertyInfo },
 ];
 
 const router = createRouter({
