@@ -340,7 +340,7 @@ import { defineComponent, ref } from "vue";
 import { useAuthStore } from "../store/auth";
 import logo from "../assets/logo.png";
 import useNavigationFunctions from "../utils/nav-functions";
-import useUrlFormatter from "../utils/url-formatter";
+import useFormatter from "../utils/formatter";
 import { onMounted } from "vue";
 import { initFlowbite } from "flowbite";
 import { PROPERTY_TYPE_ENUM } from "../lib/enum";
@@ -355,7 +355,7 @@ export default defineComponent({
     const isAuthenticated = !!authStore.user;
 
     const route = useNavigationFunctions();
-    const { getImageUrl } = useUrlFormatter();
+    const { getImageUrl } = useFormatter();
 
     const isSidebarOpen = ref(false);
     const isNavDropdownOpen = ref(false);

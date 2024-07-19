@@ -10,9 +10,11 @@ const usePropertiesApi = () => {
     regionId,
     streetId,
     url = null,
+    broker = "",
   }) => {
     const fetchUrl = new URL(url || `${apiUrl}/api/properties`);
 
+    fetchUrl.searchParams.append("broker", broker);
     fetchUrl.searchParams.append("propertyType", propertyType);
     fetchUrl.searchParams.append("category", category);
     fetchUrl.searchParams.append("regionId", regionId);
@@ -94,7 +96,7 @@ const usePropertiesApi = () => {
       }
 
       const data = await response.json();
-      
+
       return {
         success: true,
         data: data,

@@ -186,7 +186,7 @@ import FooterVue from "@/components/Footer.vue";
 import CopyRightVue from "@/components/CopyRight.vue";
 import CardPlaceholderVue from "@/components/CardPlaceholder.vue";
 import useNavigationFunctions from "@/utils/nav-functions";
-import useUrlFormatter from "@/utils/url-formatter";
+import useFormatter from "@/utils/formatter";
 import { computed } from "vue";
 import { onMounted } from "vue";
 import { onBeforeRouteUpdate } from "vue-router";
@@ -197,7 +197,7 @@ export default defineComponent({
   setup() {
     const brokersStore = useBrokersStore();
     const { navigateToBrokerInfo } = useNavigationFunctions();
-    const { getImageUrl } = useUrlFormatter();
+    const { getImageUrl } = useFormatter();
 
     const brokers = computed(() => brokersStore.getBrokers);
     const next = computed(() => brokersStore.getNext);

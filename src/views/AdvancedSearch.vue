@@ -205,7 +205,8 @@
                 </h5>
 
                 <p class="text-md font-bold text-gray-900">
-                  {{ property.price }} {{ property.price_unit }}
+                  {{ formatNumberWithCommas(property.price) }}
+                  {{ property.price_unit }}
                   {{
                     property.payment_period
                       ? `/ ${property.payment_period}`
@@ -359,7 +360,7 @@ import CopyRightVue from "@/components/CopyRight.vue";
 import CardPlaceholderVue from "@/components/CardPlaceholder.vue";
 import { CATEGORY_ENUM, PROPERTY_TYPE_ENUM } from "@/lib/enum";
 import useLocation from "@/api/location";
-import useUrlFormatter from "@/utils/url-formatter";
+import useFormatter from "@/utils/formatter";
 import { onBeforeRouteUpdate } from "vue-router";
 import useSearchPropertiesStore from "@/store/properties-search-store";
 import useNavigationFunctions from "@/utils/nav-functions";
@@ -379,7 +380,7 @@ export default defineComponent({
     const searchPropertiesStore = useSearchPropertiesStore();
     const { navigateToPropertyInfo } = useNavigationFunctions();
 
-    const { getImageUrl } = useUrlFormatter();
+    const { getImageUrl, formatNumberWithCommas } = useFormatter();
 
     const regions = ref(null);
     const districts = ref(null);
@@ -527,6 +528,7 @@ export default defineComponent({
       next,
       previous,
       count,
+      formatNumberWithCommas,
     };
   },
 });

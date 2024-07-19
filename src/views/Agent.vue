@@ -351,7 +351,7 @@ import { STATUS_CODE, USER_STATUS } from "@/lib/enum";
 import { useAgentsStore } from "@/store/user";
 import { formatDate } from "@/utils/date-format";
 import useNavigationFunctions from "@/utils/nav-functions";
-import useUrlFormatter from "@/utils/url-formatter";
+import useFormatter from "@/utils/formatter";
 import { initFlowbite } from "flowbite";
 import { defineComponent, onMounted, computed, ref } from "vue";
 import { onBeforeRouteUpdate } from "vue-router";
@@ -364,7 +364,7 @@ components: {Navbar, ErrorModal, SuccessModal},
 setup() {
   const { navigateToAuth } = useNavigationFunctions();
   const {active} = useUserApi();
-  const {getImageUrl} = useUrlFormatter();
+  const {getImageUrl} = useFormatter();
   const agentsStore = useAgentsStore();
   const first_name = ref("");
   const isSuccessModalVisible = ref(false);
@@ -437,7 +437,7 @@ setup() {
         fetchAgents();
       }, 300);
 
-    
+
     }
 
   const getAgentStatusClass = (agent) => {

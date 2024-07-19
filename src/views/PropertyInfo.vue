@@ -69,7 +69,8 @@
               >
                 <dt class="font-medium text-gray-500">Price</dt>
                 <dd class="mt-1 text-gray-900 sm:mt-0 sm:col-span-2">
-                  {{ property.price }} {{ property.price_unit }}
+                  {{ formatNumberWithCommas(property.price) }}
+                  {{ property.price_unit }}
                   {{
                     property.payment_period ? `/${property.payment_period}` : ""
                   }}
@@ -78,14 +79,6 @@
 
               <div
                 class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
-              >
-                <dt class="font-medium text-gray-500">Property Type</dt>
-                <dd class="mt-1 text-gray-900 sm:mt-0 sm:col-span-2">
-                  {{ property.property_type }}
-                </dd>
-              </div>
-              <div
-                class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
               >
                 <dt class="font-medium text-gray-500">Condition</dt>
                 <dd class="mt-1 text-gray-900 sm:mt-0 sm:col-span-2">
@@ -116,7 +109,7 @@
                 Location Details
               </h3>
               <p class="mt-1 max-w-2xl text-gray-500">
-                Pysical location of the property.
+                Physical location of the property.
               </p>
             </div>
             <div class="border-t border-gray-200">
@@ -165,10 +158,123 @@
           </div>
           <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
             <ul class="list-disc list-inside">
-              <li>Bedrooms: {{ property.bedrooms }}</li>
-              <li>Bathrooms: {{ property.bathrooms }}</li>
-              <li>Garage Capacity: {{ property.garage_capacity }}</li>
-              <li>Furnishing Status: {{ property.furnishing_status }}</li>
+              <!-- HOUSE -->
+              <li v-if="property.bedrooms">
+                Bedrooms: {{ property.bedrooms }}
+              </li>
+              <li v-if="property.bathrooms">
+                Bathrooms: {{ property.bathrooms }}
+              </li>
+              <li v-if="property.living_rooms">
+                Living Rooms: {{ property.living_rooms }}
+              </li>
+              <li v-if="property.floors">Floors: {{ property.floors }}</li>
+              <li v-if="property.yard_size">
+                Yard Size: {{ property.yard_size }} Metre Squires
+              </li>
+              <li v-if="property.yard_type">
+                Yard Type: {{ property.yard_type }}
+              </li>
+              <li v-if="property.balcony_size">
+                Barcony Size: {{ property.balcony_size }} Metre Squires
+              </li>
+              <li v-if="property.corridor_size">
+                Corridor Size: {{ property.corridor_size }} Metre Squires
+              </li>
+              <li v-if="property.kitchen_type">
+                Kitchen Type: {{ property.kitchen_type }}
+              </li>
+              <li v-if="property.kitchen_count">
+                Kitchen Count: {{ property.kitchen_count }}
+              </li>
+              <li v-if="property.garage_capacity">
+                Garage Capacity: {{ property.garage_capacity }}
+              </li>
+
+              <!-- LAND -->
+              <li v-if="property.land_type">
+                Land Type: {{ property.land_type }}
+              </li>
+              <li v-if="property.plot_size">
+                Plot Size: {{ property.plot_size }} Metre Squires
+              </li>
+              <li v-if="property.zoning">Zoonong: {{ property.zoning }}</li>
+              <li v-if="property.land_type">
+                Land Type: {{ property.land_type }}
+              </li>
+              <li v-if="property.topography">
+                Topography: {{ property.topography }}
+              </li>
+              <li v-if="property.access_roads">
+                Access Roads: {{ property.access_roads }}
+              </li>
+              <li v-if="property.development_status">
+                Development Status: {{ property.development_status }}
+              </li>
+
+              <!-- ROOMS -->
+              <li v-if="property.room_type">
+                Room Type: {{ property.room_type }}
+              </li>
+              <li v-if="property.room_size">
+                Room Size: {{ property.room_size }} Metre Squires
+              </li>
+
+              <li v-if="property.shared_facilities">
+                Shared Facilities: {{ property.shared_facilities }}
+              </li>
+              <li v-if="property.occupancy">
+                Maximum Occupancy: {{ property.occupancy }}
+              </li>
+
+              <li v-if="property.security_features">
+                Security Features: {{ property.security_features }}
+              </li>
+              <li v-if="property.furnishing_status">
+                Furnishing Status: {{ property.furnishing_status }}
+              </li>
+
+              <!-- HALL -->
+              <li v-if="property.capacity">
+                Capacity: {{ property.capacity }}
+              </li>
+              <li v-if="property.facilities">
+                Facilities: {{ property.facilities }}
+              </li>
+              <li v-if="property.usage">Usage: {{ property.usage }}</li>
+              <li v-if="property.booking_options">
+                Booking Options: {{ property.booking_options }}
+              </li>
+              <li v-if="property.parking_space">
+                Parking Spaces: {{ property.parking_space }}
+              </li>
+
+              <!-- BUSINESS FRAME -->
+              <li v-if="property.capacity">
+                Capacity: {{ property.capacity }}
+              </li>
+              <li v-if="property.business_type_suitability">
+                Business Type Suitability:
+                {{ property.business_type_suitability }}
+              </li>
+
+              <!--  COMMON -->
+
+              <li v-if="property.parking_space">
+                Parking Spaces: {{ property.parking_space }}
+              </li>
+              <li v-if="property.floor_level">
+                Floor Level: {{ property.floor_level }}
+              </li>
+              <li v-if="property.accessbility_features">
+                Accessibility Features: {{ property.accessbility_features }}
+              </li>
+              <li v-if="property.security_features">
+                Security Features: {{ property.security_features }}
+              </li>
+              <li v-if="property.furnishing_status">
+                Furnishing Status: {{ property.furnishing_status }}
+              </li>
               <li>Utilities: {{ property.utilities }}</li>
 
               <!-- Add more features as needed -->
@@ -319,7 +425,7 @@ import { defineComponent, ref } from 'vue';
 import { onMounted } from 'vue';
 import useUserApi from '@/api/user';
 import usePropertiesApi from '@/api/properties';
-import useUrlFormatter from '@/utils/url-formatter';
+import useFormatter from '@/utils/formatter';
 import ImageAutoSlider from "@/components/ImageAutoSlider.vue";
 import useLocation from '@/api/location';
 
@@ -336,7 +442,7 @@ export default defineComponent({
     const broker = ref(null);
     const location = ref(null);
     const route = useRoute();
-    const { getImageUrl } = useUrlFormatter();
+    const { getImageUrl, formatNumberWithCommas } = useFormatter();
     const userApi = useUserApi();
     const propertiesApi = usePropertiesApi();
     const locationApi = useLocation();
@@ -372,6 +478,7 @@ export default defineComponent({
       getImageUrl,
       ImageAutoSlider,
       location,
+      formatNumberWithCommas,
     };
   },
 });
