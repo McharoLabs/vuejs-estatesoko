@@ -33,10 +33,12 @@ const useSearchPropertiesStore = defineStore({
       propertyType,
       regionId,
       streetId,
+      broker = "",
       url = null,
     }) {
       const fetchUrl = new URL(url || `${this.apiUrl}/api/properties`);
 
+      fetchUrl.searchParams.append("broker", broker);
       fetchUrl.searchParams.append("propertyType", propertyType);
       fetchUrl.searchParams.append("category", category);
       fetchUrl.searchParams.append("regionId", regionId);

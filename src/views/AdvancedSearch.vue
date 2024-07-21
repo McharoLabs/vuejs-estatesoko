@@ -483,11 +483,6 @@ export default defineComponent({
       }
     });
 
-    const handleNumericInput = (field) => {
-      const value = field === 'min_price' ? min_price : max_price;
-      value.value = value.value.replace(/\D/g, '');
-    };
-
     watch(selected_district_name, async (newVal) => {
       if (newVal) {
         const district = districts.value?.find(
@@ -504,6 +499,13 @@ export default defineComponent({
         }
       }
     });
+
+    const handleNumericInput = (field) => {
+      const value = field === 'min_price' ? min_price : max_price;
+      value.value = value.value.replace(/\D/g, '');
+    };
+
+    
 
     return {
       navigateToPropertyInfo,

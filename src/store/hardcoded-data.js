@@ -27,7 +27,7 @@ const HardCodedData = () => {
       clientImageUrl: chiefMarketing,
     },
     {
-      name: "Alex Johnson",
+      name: "George Majiyapwani",
       work: "Operation Manager",
       comment:
         "Overseeing daily operations to ensure efficiency and quality. Dedicated to optimizing processes and leading the team towards achieving our goals.",

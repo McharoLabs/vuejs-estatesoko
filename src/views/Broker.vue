@@ -43,9 +43,9 @@
         </div>
 
         <div
-          class="grid place-items-center gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+          class="grid place-items-center gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-8"
         >
-          <div v-for="(broker, index) in brokers" :key="index" class="mt-8">
+          <div v-for="(broker, index) in brokers" :key="index">
             <div
               class="max-w-sm bg-white border border-gray-200 rounded-lg shadow"
             >

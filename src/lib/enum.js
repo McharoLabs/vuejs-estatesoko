@@ -76,8 +76,8 @@ export const FURNISHED_STATUS = Object.freeze({
 });
 
 export const COMPANY_INFORMATION = Object.freeze({
-  PHONE: "+255744131700",
-  EMAIL: "estatesoko@gmail.com",
+  PHONE: "+255750000004",
+  EMAIL: "info@estatesoko.co.tz",
   COMPANY_NAME: "ESTATESOKO.CO.TZ",
   LOCATION: "Dar es salaam, tanzania",
   WORKING_HOURS: "8 a.m. – 11 p.m.",
