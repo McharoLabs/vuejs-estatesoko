@@ -70,7 +70,9 @@
 
         <CardPlaceholderVue v-if="properties.length === 0" />
 
-        <div
+        <PropertyCard :properties="properties" v-else />
+
+        <!-- <div
           v-else
           class="grid place-items-center gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
         >
@@ -174,7 +176,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
 
         <div class="flex flex-col items-center my-4">
           <div class="inline-flex mt-2 xs:mt-0">
@@ -261,17 +263,19 @@ import useNavigationFunctions from "@/utils/nav-functions";
 import { CATEGORY_ENUM } from "@/lib/enum";
 import useLocation from "@/api/location";
 import PropertyFilterForm from "@/components/PropertyFilterForm.vue";
-import useSearchPropertiesStore from "@/store/properties-search-store";
+import {useBrokerPropertiesStore} from "@/store/propertiesStore";
+import PropertyCard from "@/components/PropertyCard.vue";
+import CardPlaceholderVue from "@/components/CardPlaceholder.vue";
 
 export default defineComponent({
   name: "BrokerInfo",
-  components: { TopEstateNavVue, FooterVue, CopyRightVue, PropertyFilterForm },
+  components: { TopEstateNavVue, FooterVue, CopyRightVue, PropertyFilterForm, PropertyCard, CardPlaceholderVue },
   setup() {
     const route = useRoute();
     const { getBroker } = useUserApi();
     const { getImageUrl, formatNumberWithCommas } = useFormatter();
     const { navigateToPropertyInfo } = useNavigationFunctions();
-    const searchPropertiesStore = useSearchPropertiesStore();
+    const brokerPropertiesStore = useBrokerPropertiesStore();
 
 
     const broker = ref(null);
@@ -285,10 +289,10 @@ export default defineComponent({
         endPrice: "",
     });
 
-    const properties = computed(() => searchPropertiesStore.getProperties);
-    const next = computed(() => searchPropertiesStore.getNext);
-    const previous = computed(() => searchPropertiesStore.getPrevious);
-    const count = computed(() => searchPropertiesStore.getCount);
+    const properties = computed(() => brokerPropertiesStore.getProperties);
+    const next = computed(() => brokerPropertiesStore.getNext);
+    const previous = computed(() => brokerPropertiesStore.getPrevious);
+    const count = computed(() => brokerPropertiesStore.getCount);
 
     onMounted(async () => {
       scrollToSection("broker-info");
@@ -310,7 +314,7 @@ export default defineComponent({
         url: url || null,
       };
 
-      await searchPropertiesStore.fetchProperties(searchParams);
+      await brokerPropertiesStore.fetchProperties(searchParams);
     };
 
     const fetchNext = async () => {
@@ -344,6 +348,8 @@ export default defineComponent({
       count,
       next,
       previous,
+      fetchNext,
+      fetchPrevious,
     };
   },
 });

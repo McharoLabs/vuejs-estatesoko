@@ -5,164 +5,10 @@
     <div class="flex-grow">
       <section class="p-10" id="search"></section>
 
-      <section class="max-w-screen-xl mx-auto px-4 w-full">
-        <div
-          class="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8"
-        >
-          <div class="w-full sm:w-2/3 md:w-72">
-            <SegmentedControl
-              :options="categoryOptions"
-              v-model="selected_category"
-            />
-          </div>
-          <div class="mt-5">
-            <form class="w-full">
-              <div class="grid md:grid-cols-2 md:gap-6">
-                <div class="relative z-0 w-full mb-5 group">
-                  <label for="region_select" class="sr-only"
-                    >Select Region</label
-                  >
-                  <select
-                    id="region_select"
-                    class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
-                    v-model="selected_property_type"
-                  >
-                    <option value="">Select property type</option>
-                    <option
-                      v-for="option in propertyTypeOptions"
-                      :key="option"
-                      :value="option"
-                    >
-                      {{ option }}
-                    </option>
-                  </select>
-                </div>
-
-                <div class="relative z-0 w-full mb-5 group">
-                  <label for="region_select" class="sr-only"
-                    >Select Region</label
-                  >
-                  <select
-                    id="region_select"
-                    class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
-                    v-model="selected_region_name"
-                  >
-                    <option value="">Select a region</option>
-                    <option
-                      v-for="region in regions"
-                      :key="region.region_id"
-                      :value="region.name"
-                    >
-                      {{ region.name }}
-                    </option>
-                  </select>
-                </div>
-                <div class="relative z-0 w-full mb-5 group">
-                  <label for="district_select" class="sr-only"
-                    >Select District</label
-                  >
-                  <select
-                    id="district_select"
-                    class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
-                    v-model="selected_district_name"
-                  >
-                    <option value="">Select a district</option>
-                    <option
-                      v-for="district in districts"
-                      :key="district.district_id"
-                      :value="district.name"
-                    >
-                      {{ district.name }}
-                    </option>
-                  </select>
-                </div>
-
-                <div class="relative z-0 w-full mb-5 group">
-                  <label for="street_select" class="sr-only"
-                    >Select Street</label
-                  >
-                  <select
-                    id="street_select"
-                    class="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
-                    v-model="selected_street_name"
-                  >
-                    <option value="">Select a street</option>
-                    <option
-                      v-for="street in streets"
-                      :key="street.name"
-                      :value="street.name"
-                    >
-                      {{ street.name }}
-                    </option>
-                  </select>
-                </div>
-
-                <div class="relative z-0 w-full mb-5 group">
-                  <input
-                    type="text"
-                    name="min_price"
-                    id="min_price"
-                    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                    placeholder=" "
-                    required
-                    v-model="min_price"
-                    @input="handleNumericInput('min_price')"
-                  />
-                  <label
-                    for="min_price"
-                    class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                  >
-                    Minimum Price
-                  </label>
-                </div>
-                <div class="relative z-0 w-full mb-5 group">
-                  <input
-                    type="text"
-                    name="max_price"
-                    id="max_price"
-                    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                    placeholder=" "
-                    required
-                    v-model="max_price"
-                    @input="handleNumericInput('max_price')"
-                  />
-                  <label
-                    for="max_price"
-                    class="peer-focus:font-medium absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                  >
-                    Maximum Price
-                  </label>
-                </div>
-
-                <button
-                  @click.prevent="fetchProperties()"
-                  type="button"
-                  class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none flex flex-row gap-3 justify-center items-center"
-                >
-                  <p>Search</p>
-
-                  <svg
-                    class="w-6 h-6"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-width="2"
-                      d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </section>
+      <PropertyFilterForm
+        :formData="formData"
+        :handleSearch="fetchProperties"
+      />
 
       <!-- PROPERTY DISPLAY -->
       <section class="max-w-screen-xl mx-auto p-4" id="search-display">
@@ -173,7 +19,8 @@
 
         <CardPlaceholderVue v-if="properties.length === 0" />
 
-        <div
+        <PropertyCard :properties="properties" v-else />
+        <!-- <div
           v-else
           class="grid place-items-center gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
         >
@@ -277,7 +124,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
 
         <div class="flex flex-col items-center my-4">
           <div class="inline-flex mt-2 xs:mt-0">
@@ -352,12 +199,14 @@
 </template>
 
 <script lang="js">
-import { computed, defineComponent, onMounted, ref, watch } from "vue";
+import { computed, defineComponent, onMounted, ref, watch, reactive } from "vue";
 import TopEstateNavVue from "@/components/TopEstateNav.vue";
 import SegmentedControl from "@/components/SegmentedControl.vue";
 import FooterVue from "@/components/Footer.vue";
 import CopyRightVue from "@/components/CopyRight.vue";
 import CardPlaceholderVue from "@/components/CardPlaceholder.vue";
+import PropertyFilterForm from "@/components/PropertyFilterForm.vue";
+import PropertyCard from "@/components/PropertyCard.vue";
 import { CATEGORY_ENUM, PROPERTY_TYPE_ENUM } from "@/lib/enum";
 import useLocation from "@/api/location";
 import useFormatter from "@/utils/formatter";
@@ -373,29 +222,24 @@ export default defineComponent({
     FooterVue,
     CopyRightVue,
     CardPlaceholderVue,
+    PropertyFilterForm,
+    PropertyCard,
   },
   setup() {
-    const { getDistrictStreets, getRegionDistricts, getRegions } =
-      useLocation();
-    const searchPropertiesStore = useSearchPropertiesStore();
-    const { navigateToPropertyInfo } = useNavigationFunctions();
-
+    const { getDistrictStreets, getRegionDistricts, getRegions } = useLocation();
     const { getImageUrl, formatNumberWithCommas } = useFormatter();
+    const { navigateToPropertyInfo } = useNavigationFunctions();
+    const searchPropertiesStore = useSearchPropertiesStore();
 
-    const regions = ref(null);
-    const districts = ref(null);
-    const streets = ref(null);
-
-    const selected_category = ref(CATEGORY_ENUM.SALE);
-    const selected_region_name = ref("");
-    const selected_district_name = ref("");
-    const selected_street_name = ref("");
-    const selected_property_type = ref("");
-    const min_price = ref("");
-    const max_price = ref("");
-
-    const categoryOptions = Object.values(CATEGORY_ENUM);
-    const propertyTypeOptions = Object.values(PROPERTY_TYPE_ENUM);
+    const formData = reactive({
+      propertyType: "",
+      category: CATEGORY_ENUM.SALE,
+      regionId: "",
+      districtId: "",
+      streetId: "",
+      initialPrice: "",
+      endPrice: "",
+    });
 
     const properties = computed(() => searchPropertiesStore.getProperties);
     const next = computed(() => searchPropertiesStore.getNext);
@@ -403,41 +247,17 @@ export default defineComponent({
     const count = computed(() => searchPropertiesStore.getCount);
 
     onMounted(async () => {
-      const { success, data } = await getRegions();
-      if (success && data) {
-        regions.value = data;
-      }
-
       if (searchPropertiesStore.getProperties.length === 0) {
         await fetchProperties();
       }
-
-
       scrollToSection("search");
     });
 
     const fetchProperties = async (url = null) => {
-      const region = regions.value?.find(
-        (r) => r.name === selected_region_name.value
-      );
-      const district = districts.value?.find(
-        (d) => d.name === selected_district_name.value
-      );
-      const street = streets.value?.find(
-        (s) => s.name === selected_street_name.value
-      );
-
       const searchParams = {
-        propertyType: selected_property_type.value,
-        category: selected_category.value,
-        regionId: region?.region_id ?? "",
-        districtId: district?.district_id ?? "",
-        streetId: street?.street_id ?? "",
-        initialPrice: min_price.value,
-        endPrice: max_price.value,
+        ...formData,
         url: url || null,
       };
-
       await searchPropertiesStore.fetchProperties(searchParams);
     };
 
@@ -466,63 +286,9 @@ export default defineComponent({
       }
     };
 
-    watch(selected_region_name, async (newVal) => {
-      if (newVal) {
-        const region = regions.value?.find(
-          (r) => r.name === newVal
-        );
-        if (region) {
-          const { success, data } = await getRegionDistricts(region.region_id);
-          if (success && data) {
-            districts.value = data;
-            streets.value = null;
-            selected_district_name.value = "";
-            selected_street_name.value = "";
-          }
-        }
-      }
-    });
-
-    watch(selected_district_name, async (newVal) => {
-      if (newVal) {
-        const district = districts.value?.find(
-          (d) => d.name === newVal
-        );
-        if (district) {
-          const { success, data } = await getDistrictStreets(
-            district.district_id
-          );
-          if (success && data) {
-            streets.value = data;
-            selected_street_name.value = "";
-          }
-        }
-      }
-    });
-
-    const handleNumericInput = (field) => {
-      const value = field === 'min_price' ? min_price : max_price;
-      value.value = value.value.replace(/\D/g, '');
-    };
-
-    
-
     return {
       navigateToPropertyInfo,
-      regions,
-      districts,
-      streets,
-      selected_region_name,
-      selected_district_name,
-      selected_street_name,
-      selected_category,
-      selected_property_type,
-      min_price,
-      max_price,
-      categoryOptions,
-      propertyTypeOptions,
       fetchProperties,
-      handleNumericInput,
       fetchNext,
       fetchPrevious,
       properties,
@@ -531,6 +297,7 @@ export default defineComponent({
       previous,
       count,
       formatNumberWithCommas,
+      formData,
     };
   },
 });
