@@ -23,7 +23,7 @@
               {{ profileData.company || "No Company" }}
             </p>
             <button
-              @click="isEditing = !isEditing"
+              @click="editFormVisibility()"
               class="mt-4 bg-blue-500 text-white px-4 py-2 rounded flex flex-row"
             >
               <svg
@@ -65,7 +65,7 @@
         </div>
 
         <!-- Edit Profile Form -->
-        <div v-if="isEditing" class="mt-8">
+        <div v-if="isEditing" class="mt-8" id="edit-form">
           <h3 class="text-xl font-semibold">Update Profile</h3>
 
           <div class="bg-red-500 rounded-lg p-4 text-white text-lg my-3" v-if="errorDetail"><p>
@@ -157,7 +157,7 @@
 
 <script lang="js">
 import Navbar from "@/components/Navbar.vue";
-import { defineComponent, onMounted, ref } from "vue";
+import { defineComponent, onMounted, ref, nextTick } from "vue";
 import useUserApi from "@/api/user";
 import { STATUS_CODE } from "@/lib/enum";
 import ErrorModal from "@/components/ErrorModal.vue";
@@ -281,6 +281,19 @@ export default defineComponent({
       }
     }
 
+    const editFormVisibility = async () => {
+  isEditing.value = !isEditing.value;
+  await nextTick();
+  scrollToSection("edit-form");
+};
+
+    const scrollToSection = (id) => {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    };
+
     return {
       errorDetail,
       successDetail,
@@ -296,6 +309,7 @@ export default defineComponent({
       isEditing,
       aboutMeError,
       commentError,
+      editFormVisibility,
     };
   },
 });
