@@ -32,7 +32,6 @@ export const useBrokersStore = defineStore({
 
       try {
         const response = await fetch(fetchUrl, requestOptions);
-
         if (!response.ok) {
           const errorDetail = await response.json();
 

@@ -345,8 +345,8 @@
 <script lang="js">
 import useUserApi from "@/api/user";
 import ErrorModal from "@/components/ErrorModal.vue";
-import Navbar from "@/components/Navbar.vue";
 import SuccessModal from "@/components/SuccessModal.vue";
+import Navbar from "@/components/Navbar.vue";
 import { STATUS_CODE, USER_STATUS } from "@/lib/enum";
 import { useAgentsStore } from "@/store/user";
 import { formatDate } from "@/utils/date-format";
@@ -356,18 +356,20 @@ import { initFlowbite } from "flowbite";
 import { defineComponent, onMounted, computed, ref } from "vue";
 import { onBeforeRouteUpdate } from "vue-router";
 
-
-
 export default defineComponent({
-name: "Manage",
-components: {Navbar, ErrorModal, SuccessModal},
-setup() {
-  const { navigateToAuth } = useNavigationFunctions();
-  const {active} = useUserApi();
-  const {getImageUrl} = useFormatter();
-  const agentsStore = useAgentsStore();
-  const first_name = ref("");
-  const isSuccessModalVisible = ref(false);
+  name: "Manage",
+  components: {
+    Navbar,
+    ErrorModal,
+    SuccessModal,
+  },
+  setup() {
+    const { navigateToAuth } = useNavigationFunctions();
+    const { getImageUrl } = useFormatter();
+    const { active } = useUserApi();
+    const agentsStore = useAgentsStore();
+    const first_name = ref("");
+    const isSuccessModalVisible = ref(false);
     const successMessage = ref("");
     const isErrorModalVisible = ref(false);
     const errorMessage = ref("");
@@ -395,20 +397,18 @@ setup() {
       isSuccessModalVisible.value = isVisible;
     };
 
-  const agents = computed(() => agentsStore.getAgents);
-  const next = computed(() => agentsStore.getNext);
+    const agents = computed(() => agentsStore.getAgents);
+    const next = computed(() => agentsStore.getNext);
     const previous = computed(() => agentsStore.getPrevious);
 
-  onMounted(async () => {
-    initFlowbite();
-
-    if (agentsStore.getAgents.length === 0) {
+    onMounted(async () => {
+      initFlowbite();
+      if (agentsStore.getAgents.length === 0) {
         await fetchAgents();
       }
-  })
+    });
 
-
-  const fetchAgents = async ({ is_active = undefined, is_deleted = undefined, url = null } = {}) => {
+    const fetchAgents = async ({ is_active = undefined, is_deleted = undefined, url = null } = {}) => {
       const searchParams = {
         first_name: first_name.value,
         is_active: is_active,
@@ -416,31 +416,27 @@ setup() {
         url: url,
       };
 
-      const { code, message, success } = await agentsStore.fetchAgents(searchParams);
 
-      if (!success && code === STATUS_CODE.UNAUTHORIZED) {
+      const { code, message, success } = await agentsStore.fetchAgents(searchParams);
+      if (!success && (code === STATUS_CODE.UNAUTHORIZED || code === STATUS_CODE.FORBIDEN)) {
         showErrorModal(message);
       }
+
     };
 
     const updateStatus = async (user_id) => {
-      const {message, success, code} = await active({user_id: user_id});
-
+      const { message, success, code } = await active({ user_id });
       if (!success && code === STATUS_CODE.UNAUTHORIZED) {
         showErrorModal(message);
         return;
       }
-
       showSuccessModal(message);
-
       setTimeout(() => {
         fetchAgents();
       }, 300);
+    };
 
-
-    }
-
-  const getAgentStatusClass = (agent) => {
+    const getAgentStatusClass = (agent) => {
       if (agent.is_deleted) {
         return 'bg-red-500';
       } else if (agent.is_active) {
@@ -450,20 +446,18 @@ setup() {
       } else {
         return 'bg-white';
       }
-    }
+    };
 
     const fetchNext = async () => {
       if (next.value) {
-        await fetchAgents({url: next.value})
+        await fetchAgents({ url: next.value });
         scrollToSection("agents");
       }
     };
 
     const fetchPrevious = async () => {
       if (previous.value) {
-        await fetchAgents({url: previous.value})
-
-
+        await fetchAgents({ url: previous.value });
         scrollToSection("agents");
       }
     };
@@ -477,35 +471,56 @@ setup() {
 
     const search = async () => {
       await fetchAgents();
-    }
+    };
 
     const getAll = async () => {
       first_name.value = "";
       await fetchAgents();
-    }
+    };
 
     const getActive = async () => {
       first_name.value = "";
       await fetchAgents({ is_active: 'true', is_deleted: 'false' });
-    }
+    };
 
     const getInactive = async () => {
       first_name.value = "";
       await fetchAgents({ is_active: 'false', is_deleted: 'false' });
-    }
+    };
 
     const getDeleted = async () => {
       first_name.value = "";
       await fetchAgents({ is_deleted: 'true' });
-    }
+    };
 
-
-
-  onBeforeRouteUpdate(async () => {
+    onBeforeRouteUpdate(async () => {
       await fetchAgents();
     });
 
-  return {getActive, updateStatus, getInactive, getDeleted,previous, search, first_name, next, fetchPrevious, fetchNext, getAgentStatusClass, USER_STATUS, formatDate, getImageUrl, agents, isSuccessModalVisible, successMessage, isErrorModalVisible, errorMessage, handleSuccessModalVisibility, handleErrorModalVisibility, getAll}
-}
-})
+    return {
+      getActive,
+      updateStatus,
+      getInactive,
+      getDeleted,
+      previous,
+      search,
+      first_name,
+      next,
+      fetchPrevious,
+      fetchNext,
+      getAgentStatusClass,
+      USER_STATUS,
+      formatDate,
+      getImageUrl,
+      agents,
+      isSuccessModalVisible,
+      successMessage,
+      isErrorModalVisible,
+      errorMessage,
+      handleSuccessModalVisibility,
+      handleErrorModalVisibility,
+      getAll,
+    };
+  },
+});
 </script>

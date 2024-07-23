@@ -7,6 +7,9 @@ export const BUSSINESS_ENUM = Object.freeze({
 
 export const STATUS_CODE = Object.freeze({
   UNAUTHORIZED: 401,
+  NOT_MODIFIED: 304,
+  BAD_REQUEST: 400,
+  FORBIDEN: 403,
 });
 
 export const USER_ROLES = Object.freeze({

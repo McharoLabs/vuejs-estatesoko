@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { useAuthStore } from "./auth";
 
 export const useAgentsStore = defineStore({
-  id: "agents",
+  id: "users",
   state: () => ({
     agents: [],
     next: null,
@@ -55,6 +55,12 @@ export const useAgentsStore = defineStore({
 
           if (response.status === 401) {
             logout();
+            return {
+              success: false,
+              code: response.status,
+              message: errorDetail.detail,
+            };
+          } else if (response.status === 403) {
             return {
               success: false,
               code: response.status,

@@ -80,9 +80,8 @@ const useUserApi = () => {
 
       if (!response.ok) {
         const errorDetail = await response.json();
-        console.log(errorDetail);
 
-        if (response.status === 400) {
+        if (response.status === 401) {
           console.log(errorDetail.detail);
           return {
             success: false,
@@ -143,7 +142,147 @@ const useUserApi = () => {
     }
   };
 
-  return { createAccount, active, getBroker };
+  const getProfile = async () => {
+    const headers = new Headers();
+    headers.append("Authorization", `Bearer ${getAuthToken}`);
+
+    const fetchUrl = `${apiUrl}/user/profile`;
+
+    const requestOptions = {
+      method: "GET",
+      headers: headers,
+      redirect: "follow",
+    };
+
+    try {
+      const response = await fetch(fetchUrl, requestOptions);
+      if (!response.ok) {
+        const errorDetails = await response.json();
+
+        if (response.status === 401) {
+          logout();
+          return {
+            success: false,
+            code: response.status,
+            message: errorDetails.detail,
+          };
+        }
+
+        throw new Error(errorDetails);
+      }
+
+      const data = await response.json();
+
+      return { success: true, code: response.status, data: data };
+    } catch (error) {
+      console.error(error);
+      return { success: false, message: error.message };
+    }
+  };
+
+  const updateProfileData = async ({about_me, company, comment, phone}) => {
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${getAuthToken}`);
+
+    const fetchUrl = new URL(`${apiUrl}/user/update-profile`);
+
+    const formData = new FormData();
+    formData.append('about_me', about_me);
+    formData.append('comment', comment);
+    formData.append('company', company);
+    formData.append('phone', phone);
+
+
+    const requestOptions = {
+      method: "PUT",
+      headers: myHeaders,
+      body: formData,
+      redirect: "follow",
+    };
+
+
+    try {
+      const response = await fetch(fetchUrl, requestOptions);
+
+      if (!response.ok) {
+        const errorDetail = await response.json();
+
+        if (response.status === 401) {
+          console.log(errorDetail.detail);
+          return {
+            success: false,
+            code: response.status,
+            message: errorDetail.detail,
+          };
+        } else if (response.status === 400) {
+
+          return {
+            success: false,
+            code: response.status,
+            message: errorDetail.detail,
+          };
+        }
+        throw new Error(`Error: ${errorDetail.detail}`);
+      }
+
+      const res = await response.json();
+
+      return { success: true, code: response.status, message: res.detail };
+    } catch (error) {
+      console.error(error);
+      return { success: false, message: "Unknown error occured" };
+    }
+  };
+
+  const profileNotification = async () => {
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${getAuthToken}`);
+
+    const fetchUrl = new URL(`${apiUrl}/user/profile-notification`);
+
+
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+
+    try {
+      const response = await fetch(fetchUrl, requestOptions);
+
+      if (!response.ok) {
+        const errorDetail = await response.json();
+
+        if (response.status === 401) {
+          console.log(errorDetail.detail);
+          return {
+            success: false,
+            code: response.status,
+            message: errorDetail.detail,
+          };
+        } else if (response.status === 400) {
+
+          return {
+            success: false,
+            code: response.status,
+            message: errorDetail.detail,
+          };
+
+        }
+        throw new Error(`Error: ${errorDetail.detail}`);
+      }
+
+      const res = await response.json();
+
+      return { success: true, code: response.status, message: res.detail };
+    } catch (error) {
+      console.error(error);
+      return { success: false, message: "Unknown error occured" };
+    }
+  }
+
+  return { createAccount, active, getBroker, getProfile, updateProfileData, profileNotification };
 };
 
 export default useUserApi;

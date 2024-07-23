@@ -2,7 +2,7 @@
   <div>
     <NavbarVue />
 
-    <eection class="p-4 sm:ml-64 justify-center flex" id="land">
+    <section class="p-4 sm:ml-64 justify-center flex" id="land">
       <div
         class="p-4 border-2 max-w-7xl w-full text-2xl border-gray-200 rounded-lg mt-14"
       >
@@ -29,7 +29,7 @@
           </div>
         </div>
       </div>
-    </eection>
+    </section>
 
     <section class="p-4 sm:ml-64 justify-center flex">
       <div

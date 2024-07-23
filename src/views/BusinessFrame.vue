@@ -2,7 +2,7 @@
   <div>
     <Navbar />
 
-    <eection class="p-4 sm:ml-64 justify-center flex" id="profile"> </eection>
+    <section class="p-4 sm:ml-64 justify-center flex" id="profile"></section>
   </div>
 </template>
 <script lang="js">
