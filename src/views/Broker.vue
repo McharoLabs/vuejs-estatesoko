@@ -178,7 +178,7 @@
   </div>
 </template>
 <script lang="js">
-import { useBrokersStore } from "@/store/brokers";
+import { useBrokersStore } from "@/store/user";
 import top_image from "../assets/hmd.jpg";
 import { defineComponent } from "vue";
 import TopEstateNavVue from "@/components/TopEstateNav.vue";

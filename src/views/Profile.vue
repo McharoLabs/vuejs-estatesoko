@@ -68,11 +68,23 @@
         <div v-if="isEditing" class="mt-8" id="edit-form">
           <h3 class="text-xl font-semibold">Update Profile</h3>
 
-          <div class="bg-red-500 rounded-lg p-4 text-white text-lg my-3" v-if="errorDetail"><p>
-            {{errorDetail}}</p></div>
+          <div
+            class="bg-red-500 rounded-lg p-4 text-white text-lg my-3"
+            v-if="errorDetail"
+          >
+            <p>
+              {{ errorDetail }}
+            </p>
+          </div>
 
-            <div class="bg-green-500 rounded-lg p-4 text-white text-lg my-3" v-if="successDetail"><p>
-            {{successDetail}}</p></div>
+          <div
+            class="bg-green-500 rounded-lg p-4 text-white text-lg my-3"
+            v-if="successDetail"
+          >
+            <p>
+              {{ successDetail }}
+            </p>
+          </div>
 
           <form @submit.prevent="updateProfile">
             <div class="mt-4">
@@ -245,7 +257,7 @@ export default defineComponent({
       if (validFields()) {
         errorDetail.value = "";
         successDetail.value = "";
-  
+
         const {success, code, data, message} = await updateProfileData({about_me: profileData.value.about_me, company: profileData.value.company, comment: profileData.value.comment, phone: profileData.value.phone});
         if (!success) {
 
@@ -257,10 +269,10 @@ export default defineComponent({
           errorDetail.value = message;
           return;
         }
-        
+
         successDetail.value = message;
         await fetchProfileData();
-        
+
       }
 
 
@@ -282,10 +294,10 @@ export default defineComponent({
     }
 
     const editFormVisibility = async () => {
-  isEditing.value = !isEditing.value;
-  await nextTick();
-  scrollToSection("edit-form");
-};
+      isEditing.value = !isEditing.value;
+      await nextTick();
+      scrollToSection("edit-form");
+    };
 
     const scrollToSection = (id) => {
       const element = document.getElementById(id);

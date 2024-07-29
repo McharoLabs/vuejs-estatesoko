@@ -153,6 +153,49 @@
           </li>
 
           <li v-if="!user.is_superuser">
+            <a
+              href=""
+              class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
+              @click.prevent="route.navigateToMyProperty"
+            >
+              <svg
+                class="w-5 h-5 text-blue-500 transition duration-75 group-hover:text-blue-700"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M3 9l9-6 9 6-9 6-9-6z"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 22V12h6v10"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13 6h7v8h-7z"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M7 6H3v8h4z"
+                />
+              </svg>
+              <span class="ms-3">My Property</span>
+            </a>
+          </li>
+
+          <li v-if="!user.is_superuser">
             <button
               @click="toggleNavDropdown"
               type="button"

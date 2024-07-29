@@ -1,14 +1,14 @@
 <template>
   <div>
-    <Navbar />
+    <NavbarVue />
 
-    <section class="p-4 sm:ml-64 justify-center flex">
+    <div class="p-4 sm:ml-64 justify-center flex">
       <div
         class="p-4 border-2 max-w-7xl w-full text-2xl border-gray-200 rounded-lg mt-14"
       >
-        Agents
+        EstateSoko Platform
       </div>
-    </section>
+    </div>
 
     <section
       class="p-4 sm:ml-64 justify-center flex flex-col items-center"
@@ -16,9 +16,9 @@
     >
       <div class="w-full max-w-7xl divide-y">
         <div
-          class="flex items-center justify-between flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4 pt-4 px-3 bg-white"
+          class="flex items-center justify-between flex-column flex-wrap md:flex-row py-4 px-4 bg-white"
         >
-          <div>
+          <div class="">
             <button
               id="dropdownActionButton"
               data-dropdown-toggle="dropdownAction"
@@ -46,7 +46,7 @@
             <!-- Dropdown menu -->
             <div
               id="dropdownAction"
-              class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-28"
+              class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-36"
             >
               <ul
                 class="py-1 text-sm text-gray-700"
@@ -55,7 +55,7 @@
                 <li>
                   <a
                     href=""
-                    @click.prevent="getAll()"
+                    @click.prevent="filterProperties()"
                     class="block px-4 py-2 hover:bg-gray-100"
                     >All</a
                   >
@@ -63,25 +63,53 @@
                 <li>
                   <a
                     href=""
-                    @click.prevent="getActive()"
+                    @click.prevent="filterProperties(PROPERTY_TYPE_ENUM.HOUSE)"
                     class="block px-4 py-2 hover:bg-gray-100"
-                    >Active</a
+                    >{{ PROPERTY_TYPE_ENUM.HOUSE }}</a
                   >
                 </li>
                 <li>
                   <a
                     href=""
-                    @click.prevent="getInactive()"
+                    @click.prevent="filterProperties(PROPERTY_TYPE_ENUM.ROOM)"
                     class="block px-4 py-2 hover:bg-gray-100"
-                    >Inactive</a
+                    >{{ PROPERTY_TYPE_ENUM.ROOM }}</a
                   >
                 </li>
                 <li>
                   <a
                     href=""
-                    @click.prevent="getDeleted()"
+                    @click.prevent="filterProperties(PROPERTY_TYPE_ENUM.LAND)"
                     class="block px-4 py-2 hover:bg-gray-100"
-                    >Deleted</a
+                    >{{ PROPERTY_TYPE_ENUM.LAND }}</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href=""
+                    @click.prevent="filterProperties(PROPERTY_TYPE_ENUM.HALL)"
+                    class="block px-4 py-2 hover:bg-gray-100"
+                    >{{ PROPERTY_TYPE_ENUM.HALL }}</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href=""
+                    @click.prevent="
+                      filterProperties(PROPERTY_TYPE_ENUM.APARTMENT)
+                    "
+                    class="block px-4 py-2 hover:bg-gray-100"
+                    >{{ PROPERTY_TYPE_ENUM.APARTMENT }}</a
+                  >
+                </li>
+                <li>
+                  <a
+                    href=""
+                    @click.prevent="
+                      filterProperties(PROPERTY_TYPE_ENUM.BUSINESS_FRAME)
+                    "
+                    class="block px-4 py-2 hover:bg-gray-100"
+                    >{{ PROPERTY_TYPE_ENUM.BUSINESS_FRAME }}</a
                   >
                 </li>
               </ul>
@@ -113,9 +141,9 @@
               <input
                 type="text"
                 id="simple-search"
-                v-model="first_name"
+                v-model="formData.title"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Search by first name..."
+                placeholder="Search by title..."
                 required
               />
             </div>
@@ -147,74 +175,49 @@
           <table class="w-full text-sm text-left rtl:text-right text-gray-500">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
               <tr>
-                <th scope="col" class="px-6 py-3">Name</th>
-                <th scope="col" class="px-6 py-3">Phone Number</th>
-                <th scope="col" class="px-6 py-3">Nida Number</th>
-                <th scope="col" class="px-6 py-3">Company</th>
-                <th scope="col" class="px-6 py-3">Last Login</th>
-                <th scope="col" class="px-6 py-3">Status</th>
+                <th scope="col" class="px-6 py-3">Category</th>
+                <th scope="col" class="px-6 py-3">Property Type</th>
+                <th scope="col" class="px-6 py-3">Title</th>
+                <th scope="col" class="px-6 py-3">Location</th>
+                <th scope="col" class="px-6 py-3">Price</th>
+                <th scope="col" class="px-6 py-3">Payment Period</th>
                 <th scope="col" class="px-6 py-3">Action</th>
               </tr>
             </thead>
             <tbody>
               <tr
-                v-for="(agent, index) in agents"
+                v-for="(property, index) in properties"
                 :key="index"
                 class="bg-white border-b hover:bg-gray-100"
               >
-                <th
-                  scope="row"
-                  class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap"
-                >
-                  <img
-                    class="w-10 h-10 rounded-full"
-                    :src="getImageUrl(agent.passport)"
-                    :alt="agent.first_name"
-                  />
-                  <div class="ps-3">
-                    <div class="text-base font-semibold">
-                      {{ agent.first_name.concat(" ").concat(agent.last_name) }}
-                    </div>
-
-                    <div class="font-normal text-gray-500">
-                      {{ agent.email }}
-                    </div>
-                  </div>
-                </th>
-                <td class="px-6 py-4 text-blue-500">{{ agent.phone }}</td>
-                <td class="px-6 py-4">{{ agent.nida_number }}</td>
-                <td class="px-6 py-4">
-                  {{ agent.company ? agent.company : "N/A" }}
+                <td class="px-6 py-4 text-blue-500">{{ property.category }}</td>
+                <td class="px-6 py-4 text-blue-500">
+                  {{ property.property_type }}
                 </td>
+                <td class="px-6 py-4">
+                  {{ property.title }}
+                </td>
+                <td class="px-6 py-4">
+                  {{
+                    property.location.name +
+                    ", " +
+                    property.location.region.name
+                  }}
+                </td>
+
                 <td class="px-6 py-4 text-green-500">
-                  {{ formatDate(agent.last_login) }}
+                  {{ property.price + " " + property.price_unit }}
                 </td>
 
                 <td class="px-6 py-4">
-                  <div
-                    :class="getAgentStatusClass(agent)"
-                    class="flex items-center text-sm font-medium me-2 px-2.5 py-0.5 rounded text-white"
-                  >
-                    <span v-if="agent.is_deleted">{{
-                      USER_STATUS.DELETED
-                    }}</span>
-                    <span v-else-if="agent.is_active">{{
-                      USER_STATUS.ACTIVE
-                    }}</span>
-                    <span v-else-if="!agent.is_active">{{
-                      USER_STATUS.INACTIVE
-                    }}</span>
-                  </div>
+                  {{
+                    property.payment_period ? property.payment_period : "N/A"
+                  }}
                 </td>
+
                 <td class="px-6 py-4">
                   <div class="flex flex-row">
                     <button
-                      type="button"
-                      @click="updateStatus(agent.userId)"
-                      class="focus:outline-none text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 w-24"
-                    >
-                      {{ agent.is_active ? "Deactivate" : "Activate" }}</button
-                    ><button
                       type="button"
                       class="focus:outline-none text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2"
                     >
@@ -329,11 +332,12 @@
       </div>
     </section>
 
+    <!-- Modals -->
     <section>
       <SuccessModal
         :isVisible="isSuccessModalVisible"
         :message="successMessage"
-        @update:isVisible="handleSuccessModalVisibility"
+        @update:isVisible="handleErrorModalVisibility"
       />
       <ErrorModal
         :isVisible="isErrorModalVisible"
@@ -345,184 +349,108 @@
 </template>
 
 <script lang="js">
-import useUserApi from "@/api/user";
 import ErrorModal from "@/components/ErrorModal.vue";
 import SuccessModal from "@/components/SuccessModal.vue";
-import Navbar from "@/components/Navbar.vue";
-import { STATUS_CODE, USER_STATUS } from "@/lib/enum";
-import { useAgentsStore } from "@/store/user";
-import { formatDate } from "@/utils/date-format";
-import useNavigationFunctions from "@/utils/nav-functions";
-import useFormatter from "@/utils/formatter";
-import { initFlowbite } from "flowbite";
-import { defineComponent, onMounted, computed, ref } from "vue";
-import { onBeforeRouteUpdate } from "vue-router";
+import { defineComponent, onMounted, ref } from "vue"
+import NavbarVue from "@/components/Navbar.vue";
+import { useMyPropertiesStore } from "@/store/propertiesStore";
+import { computed } from "vue";
+import { reactive } from "vue";
+import { STATUS_CODE, PROPERTY_TYPE_ENUM } from "@/lib/enum";
+
 
 export default defineComponent({
-  name: "Manage",
-  components: {
-    Navbar,
-    ErrorModal,
-    SuccessModal,
-  },
-  setup() {
-    const { navigateToAuth } = useNavigationFunctions();
-    const { getImageUrl } = useFormatter();
-    const { active } = useUserApi();
-    const agentsStore = useAgentsStore();
-    const first_name = ref("");
-    const isSuccessModalVisible = ref(false);
-    const successMessage = ref("");
-    const isErrorModalVisible = ref(false);
-    const errorMessage = ref("");
+    name: "MyProperty",
+    components: {NavbarVue, ErrorModal, SuccessModal},
+    setup() {
+          const isSuccessModalVisible = ref(false);
+          const successMessage = ref("");
+          const isErrorModalVisible = ref(false);
+          const errorMessage = ref("");
+          const formData = reactive({
+            category: "",
+            propertyType: "",
+            title: "",
+          });
 
-    const showSuccessModal = (message) => {
-      successMessage.value = message;
-      isSuccessModalVisible.value = true;
-    };
+          const myPropertiesStore = useMyPropertiesStore();
 
-    const showErrorModal = (message) => {
-      errorMessage.value = message;
-      isErrorModalVisible.value = true;
-    };
+          const showSuccessModal = (message) => {
+          successMessage.value = message;
+          isSuccessModalVisible.value = true;
+        };
 
-    const handleErrorModalVisibility = (isVisible) => {
-      isErrorModalVisible.value = isVisible;
-      if (!isVisible) {
-        setTimeout(() => {
-          navigateToAuth();
-        }, 400);
-      }
-    };
+        const showErrorModal = (message) => {
+          errorMessage.value = message;
+          isErrorModalVisible.value = true;
+        };
 
-    const handleSuccessModalVisibility = (isVisible) => {
-      isSuccessModalVisible.value = isVisible;
-    };
+        const handleErrorModalVisibility = (isVisible) => {
+          isErrorModalVisible.value = isVisible;
+          if (!isVisible) {
+            setTimeout(() => {
+              navigateToAuth();
+            }, 300);
+          }
+        };
 
-    const agents = computed(() => agentsStore.getAgents);
-    const next = computed(() => agentsStore.getNext);
-    const previous = computed(() => agentsStore.getPrevious);
+        const handleSuccessModalVisibility = (isVisible) => {
+          isSuccessModalVisible.value = isVisible;
+        };
 
-    onMounted(async () => {
-      initFlowbite();
-      if (agentsStore.getAgents.length === 0) {
-        await fetchAgents();
-      }
-    });
-
-    const fetchAgents = async ({ is_active = undefined, is_deleted = undefined, url = null } = {}) => {
-      const searchParams = {
-        first_name: first_name.value,
-        is_active: is_active,
-        is_deleted: is_deleted,
-        url: url,
-      };
+        const properties = computed(() => myPropertiesStore.getProperties);
+        const next = computed(() => myPropertiesStore.getNext);
+        const previous = computed(() => myPropertiesStore.getPrevious);
+        const count = computed(() => myPropertiesStore.getCount);
 
 
-      const { code, message, success } = await agentsStore.fetchAgents(searchParams);
-      if (!success && (code === STATUS_CODE.UNAUTHORIZED || code === STATUS_CODE.FORBIDEN)) {
-        showErrorModal(message);
-      }
+        onMounted(async () => {
+          if (myPropertiesStore.getProperties.length === 0) {
+            await fetchProperties();
+          }
+        });
 
-    };
+        const fetchProperties = async (url = null) => {
+          const params = {
+            ...formData,
+            url: url
+          };
 
-    const updateStatus = async (user_id) => {
-      const { message, success, code } = await active({ user_id });
-      if (!success && code === STATUS_CODE.UNAUTHORIZED) {
-        showErrorModal(message);
-        return;
-      }
-      showSuccessModal(message);
-      setTimeout(() => {
-        fetchAgents();
-      }, 300);
-    };
+          const {success, code, message} = await myPropertiesStore.fetchProperties(params);
 
-    const getAgentStatusClass = (agent) => {
-      if (agent.is_deleted) {
-        return 'bg-red-500';
-      } else if (agent.is_active) {
-        return 'bg-green-500';
-      } else if (!agent.is_active) {
-        return 'bg-gray-500';
-      } else {
-        return 'bg-white';
-      }
-    };
+          if (!success && code === STATUS_CODE.UNAUTHORIZED) {
+            showErrorModal(message);
+            return;
+          }
 
-    const fetchNext = async () => {
-      if (next.value) {
-        await fetchAgents({ url: next.value });
-        scrollToSection("agents");
-      }
-    };
+        }
 
-    const fetchPrevious = async () => {
-      if (previous.value) {
-        await fetchAgents({ url: previous.value });
-        scrollToSection("agents");
-      }
-    };
+        const filterProperties = (propertyType = "") => {
+          formData.propertyType = propertyType;
+          fetchProperties();
+        }
 
-    const scrollToSection = (id) => {
-      const element = document.getElementById(id);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
-      }
-    };
+        const search = () => {
+          fetchProperties();
+        }
 
-    const search = async () => {
-      await fetchAgents();
-    };
 
-    const getAll = async () => {
-      first_name.value = "";
-      await fetchAgents();
-    };
-
-    const getActive = async () => {
-      first_name.value = "";
-      await fetchAgents({ is_active: 'true', is_deleted: 'false' });
-    };
-
-    const getInactive = async () => {
-      first_name.value = "";
-      await fetchAgents({ is_active: 'false', is_deleted: 'false' });
-    };
-
-    const getDeleted = async () => {
-      first_name.value = "";
-      await fetchAgents({ is_deleted: 'true' });
-    };
-
-    onBeforeRouteUpdate(async () => {
-      await fetchAgents();
-    });
-
-    return {
-      getActive,
-      updateStatus,
-      getInactive,
-      getDeleted,
-      previous,
-      search,
-      first_name,
-      next,
-      fetchPrevious,
-      fetchNext,
-      getAgentStatusClass,
-      USER_STATUS,
-      formatDate,
-      getImageUrl,
-      agents,
-      isSuccessModalVisible,
-      successMessage,
-      isErrorModalVisible,
-      errorMessage,
-      handleSuccessModalVisibility,
-      handleErrorModalVisibility,
-      getAll,
-    };
-  },
-});
+        return {
+          search,
+          filterProperties,
+          properties,
+          next,
+          previous,
+          count,
+          isSuccessModalVisible,
+          successMessage,
+          isErrorModalVisible,
+          errorMessage,
+          handleErrorModalVisibility,
+          handleSuccessModalVisibility,
+          PROPERTY_TYPE_ENUM,
+          formData
+        }
+    },
+})
 </script>

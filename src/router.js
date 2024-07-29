@@ -17,6 +17,7 @@ import ResetPassword from "./views/ResetPassword.vue";
 import Profile from "./views/Profile.vue";
 import Agent from "./views/Agent.vue";
 import PropertyInfo from "./views/PropertyInfo.vue";
+import MyProperty from "./views/MyProperty.vue";
 import { authGuard } from "./utils/auth-guard";
 
 const routes = [
@@ -33,39 +34,45 @@ const routes = [
     beforeEnter: authGuard,
   },
   {
-    path: "/home/broker/house",
+    path: "/home/broker/n/house",
     name: "House",
     component: House,
     beforeEnter: authGuard,
   },
   {
-    path: "/home/broker/apartment",
+    path: "/home/broker/n/apartment",
     name: "Apartment",
     component: Apartment,
     beforeEnter: authGuard,
   },
   {
-    path: "/home/broker/room",
+    path: "/home/broker/n/room",
     name: "Room",
     component: Room,
     beforeEnter: authGuard,
   },
   {
-    path: "/home/broker/business-frame",
+    path: "/home/broker/n/business-frame",
     name: "BussinessFrame",
     component: BussinessFrame,
     beforeEnter: authGuard,
   },
   {
-    path: "/home/broker/hall",
+    path: "/home/broker/n/hall",
     name: "Hall",
     component: Hall,
     beforeEnter: authGuard,
   },
   {
-    path: "/home/broker/land",
+    path: "/home/broker/n/land",
     name: "Land",
     component: Land,
+    beforeEnter: authGuard,
+  },
+  {
+    path: "/home/broker/properties",
+    name: "Property",
+    component: MyProperty,
     beforeEnter: authGuard,
   },
   {
