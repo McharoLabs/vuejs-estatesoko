@@ -4,10 +4,21 @@
       class="w-full p-4 text-center bg-white border border-gray-200 rounded-lg shadow sm:p-8"
     >
       <div class="w-full sm:w-2/3 md:w-72">
-        <SegmentedControl
-          :options="categoryOptions"
-          v-model="formData.category"
-        />
+        <div class="flex bg-blue-100 rounded-xl p-1 border-2 border-blue-200">
+          <div
+            v-for="option in categoryOptions"
+            :key="option"
+            @click="selectOption(option)"
+            :class="[
+              'px-4 py-2 cursor-pointer transition-colors duration-200 ease-in-out flex-1 text-center',
+              active === option
+                ? 'bg-blue-500 text-white rounded-lg'
+                : 'hover:bg-gray-200 bg-transparent',
+            ]"
+          >
+            {{ option }}
+          </div>
+        </div>
       </div>
       <div class="mt-5">
         <form class="w-full">
@@ -155,14 +166,14 @@
 </template>
 
 <script>
-import { ref, watch, onMounted, defineComponent } from "vue";
+import { ref, watch, onMounted, defineComponent, computed } from "vue";
 import useLocation from "@/api/location";
-import SegmentedControl from "@/components/SegmentedControl.vue";
 import { CATEGORY_ENUM, PROPERTY_TYPE_ENUM } from "@/lib/enum";
+import { useCategoryState } from "@/store/category.state";
 
 export default defineComponent({
   name: "PropertyFilterForm",
-  components: { SegmentedControl },
+  components: {},
   props: {
     formData: {
       type: Object,
@@ -176,6 +187,7 @@ export default defineComponent({
   setup(props) {
     const { getDistrictStreets, getRegionDistricts, getRegions } =
       useLocation();
+    const categoryState = useCategoryState();
 
     const regions = ref([]);
     const districts = ref([]);
@@ -190,6 +202,7 @@ export default defineComponent({
 
     const categoryOptions = Object.values(CATEGORY_ENUM);
     const propertyTypeOptions = Object.values(PROPERTY_TYPE_ENUM);
+    const active = computed(() => categoryState.getActive);
 
     onMounted(async () => {
       const { success, data } = await getRegions();
@@ -197,6 +210,11 @@ export default defineComponent({
         regions.value = data;
       }
     });
+
+    const selectOption = (option) => {
+      categoryState.setActive(option);
+      props.formData.category = active;
+    };
 
     const handleNumericInput = (field) => {
       if (field === "endPrice") {
@@ -281,6 +299,8 @@ export default defineComponent({
       categoryOptions,
       propertyTypeOptions,
       handleNumericInput,
+      selectOption,
+      active,
     };
   },
 });

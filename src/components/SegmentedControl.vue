@@ -17,6 +17,7 @@
 </template>
 
 <script lang="js">
+import { CATEGORY_ENUM } from "@/lib/enum";
 import { defineComponent, ref, watch } from "vue";
 
 export default defineComponent({
@@ -34,6 +35,10 @@ export default defineComponent({
   emits: ["update:modelValue"],
   setup(props, { emit }) {
     const active = ref(props.modelValue);
+
+    if (!props.modelValue) {
+      active.value = CATEGORY_ENUM.SALE;
+    }
 
     const selectOption = (option) => {
       active.value = option;

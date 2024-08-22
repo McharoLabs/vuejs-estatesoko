@@ -199,7 +199,7 @@
 </template>
 
 <script lang="js">
-import { computed, defineComponent, onMounted, ref, watch, reactive } from "vue";
+import { computed, defineComponent, onMounted, reactive } from "vue";
 import TopEstateNavVue from "@/components/TopEstateNav.vue";
 import SegmentedControl from "@/components/SegmentedControl.vue";
 import FooterVue from "@/components/Footer.vue";
@@ -207,12 +207,11 @@ import CopyRightVue from "@/components/CopyRight.vue";
 import CardPlaceholderVue from "@/components/CardPlaceholder.vue";
 import PropertyFilterForm from "@/components/PropertyFilterForm.vue";
 import PropertyCard from "@/components/PropertyCard.vue";
-import { CATEGORY_ENUM, PROPERTY_TYPE_ENUM } from "@/lib/enum";
-import useLocation from "@/api/location";
 import useFormatter from "@/utils/formatter";
 import { onBeforeRouteUpdate } from "vue-router";
 import useSearchPropertiesStore from "@/store/properties-search-store";
 import useNavigationFunctions from "@/utils/nav-functions";
+import { useCategoryState } from "@/store/category.state";
 
 export default defineComponent({
   name: "AdvancedSearch",
@@ -226,14 +225,15 @@ export default defineComponent({
     PropertyCard,
   },
   setup() {
-    const { getDistrictStreets, getRegionDistricts, getRegions } = useLocation();
     const { getImageUrl, formatNumberWithCommas } = useFormatter();
     const { navigateToPropertyInfo } = useNavigationFunctions();
     const searchPropertiesStore = useSearchPropertiesStore();
+    const categoryState = useCategoryState();
+
 
     const formData = reactive({
       propertyType: "",
-      category: CATEGORY_ENUM.SALE,
+      category: categoryState.getActive,
       regionId: "",
       districtId: "",
       streetId: "",
