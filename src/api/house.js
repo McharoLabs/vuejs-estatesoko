@@ -89,7 +89,7 @@ export default useHouseApi;
 //   const myHeaders = new Headers();
 //   myHeaders.append(
 //     "Authorization",
-//     "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM5YmNkZjQ5LThmMjMtNGVmMy1hZGJiLTJlNzA1ZjQyYTExMCIsImlzX3N1cGVydXNlciI6ZmFsc2UsImlzX3N0YWZmIjpmYWxzZSwibmFtZSI6IkdvZGZyZXkgbWNoYXJvIiwicGhvbmUiOiIrMjU1NzQ2NTYxNTQ1IiwiZW1haWwiOiJtY2hhcm9AZ21haWwuY29tIiwibmlkYV9udW1iZXIiOiIxOTk4MDMyMy02NzcwNy0wMDAwMS0yNSIsImJpcnRoX2RhdGUiOiIxOTYwLTA1LTE4IiwicGFzc3BvcnQiOiIvbWVkaWEvdXNlci9iMzk5ZGUzOS04YTRkLTRjODQtYjk4ZC05NTA1NGY0Y2ExZDEuanBnIiwibmlkYV9maWxlIjoiL21lZGlhL2RvYy9iMzk5ZGUzOS04YTRkLTRjODQtYjk4ZC05NTA1NGY0Y2ExZDEuanBnIiwiZXhwIjoxNzIwOTU4MDE5LCJpYXQiOjE3MjA5NTY4MTl9.lOkoqIb_ox_RMuI9Jf1otEnIyo5PSWDH3qITXMbjLEI"
+//     "Bearer bearer-token-here"
 //   );
 
 //   const formdata = new FormData();
